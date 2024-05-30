@@ -3,7 +3,7 @@ import OSM from 'ol/source/OSM';
 import XYZ from 'ol/source/XYZ';
 
 class BaseMapManager {
-  constructor(mapInstance) {
+  constructor(mapInstance, options) {
     this.map = mapInstance;
     this.baseMaps = {
       'OSM': new TileLayer({

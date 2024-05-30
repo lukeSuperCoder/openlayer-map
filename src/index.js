@@ -2,6 +2,7 @@ import 'ol/ol.css';
 import CoreMap from './core/CoreMap';
 import BaseMapManager from './mapManage/BaseMapManager';
 import { transformExtent } from 'ol/proj'
+import Track from './track/track';
 
 
 export class ElaneOlMap {
@@ -24,6 +25,7 @@ export class ElaneOlMap {
             // 初始化地图底图管理器
             this.mapInstance = this.coreMap.getMapInstance();
             this.baseMapManager = new BaseMapManager(this.coreMap.map, this.options);
+            this.trackManager = new Track(this.coreMap.map, this.options);
         }
     }
 }
