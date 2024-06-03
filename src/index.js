@@ -3,6 +3,7 @@ import CoreMap from './core/CoreMap';
 import BaseMapManager from './mapManage/BaseMapManager';
 import { transformExtent } from 'ol/proj'
 import Track from './track/track';
+import Ship from './ship/ship';
 
 
 export class ElaneOlMap {
@@ -26,6 +27,7 @@ export class ElaneOlMap {
             this.mapInstance = this.coreMap.getMapInstance();
             this.baseMapManager = new BaseMapManager(this.coreMap.map, this.options);
             this.trackManager = new Track(this.coreMap.map, this.options);
+            this.shipManager = new Ship(this.coreMap.map, this.options);
         }
     }
 }
