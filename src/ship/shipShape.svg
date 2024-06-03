@@ -1,0 +1,4 @@
+<svg width="40" height="40" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <!-- 绘制等腰三角形，点的坐标顺序为：左下角，右下角，顶点 -->
+    <polygon points="10,40 30,40 20,10" style="fill:white;stroke:black;stroke-width:1" />
+</svg>

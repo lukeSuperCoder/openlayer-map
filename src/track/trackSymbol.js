@@ -18,10 +18,10 @@ class WebGLLayer extends Layer {
 
 const predefinedStyles = {
     icons: {
-        'icon-src': 'https://openlayers.org/en/latest/examples/data/icon.png',
+        'icon-src': './src/track/track_stop.png',
         'icon-width': 18,
         'icon-height': 28,
-        'icon-color': 'lightyellow',
+        // 'icon-color': 'lightyellow',
         'icon-rotate-with-view': false,
         'icon-displacement': [0, 9],
     },
