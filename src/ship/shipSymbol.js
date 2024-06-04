@@ -43,7 +43,66 @@ class ShipSymbol {
     //绘制船形
     drawShipShape(vectorData) {
         let that = this;
+        if(that.shipLayer) {
+            that.removeAreaShip();
+        }
+        const iconStyle = {
+            'icon-src': './src/ship/shipModel.svg', //采用精灵图片，所有模型整合到一张图片，根据偏移量调整船型
+            //根据字段内容大小区间匹配
+            'icon-offset': [
+                'case',
+                ['<', ['get', 'population'], 100000], [0,0],     // population < 10000
+                ['<', ['get', 'population'], 1000000], [50,0],    // 10000 <= population < 50000
+                ['>=', ['get', 'population'], 1000000], [150,0],    // population >= 100000
+                [0,0]
+            ],
+            //根据字段内容匹配
+            // 'icon-offset': [
+            //     'match',
+            //     ['get', 'region'],
+            //     '01',
+            //     [100, 0],
+            //     '02',
+            //     [150, 0],
+            //     '03',
+            //     [50, 0],
+            //     [0, 0],
+            // ],
+            'icon-size': [50, 50],
+            'icon-width': 200,
+            'icon-height': 50,
+            'icon-color': 'red',
+            'icon-rotate-with-view': false,
+            'icon-displacement': [0, 9],
+            'icon-rotation': [
+                'interpolate',
+                ['linear'],
+                ['get', 'population'],
+                40000,
+                1 ,
+                2000000,
+                100 ,
+            ],
+        }
 
+        const vectorSource = new VectorSource({
+            features: new GeoJSON().readFeatures(vectorData),
+            wrapX: true,
+        });
+
+        const iconsLayer = new WebGLPointsLayer({
+            source: vectorSource,
+            style: iconStyle
+        });
+
+        that.shipLayer = iconsLayer;
+        that._map.addLayer(that.shipLayer);
+    };
+    drawShipShape1(vectorData) {
+        let that = this;
+        if(that.shipLayer) {
+            that.removeAreaShip();
+        }
         const iconStyle = {
             'icon-src': './src/ship/shipShape.svg',
             'icon-width': 30,
@@ -71,7 +130,15 @@ class ShipSymbol {
             source: vectorSource,
             style: iconStyle
         });
-        that._map.addLayer(iconsLayer);
-    }
+
+        that.shipLayer = iconsLayer;
+        that._map.addLayer(that.shipLayer);
+    };
+
+    removeAreaShip() {
+        let that = this;
+        that._map.removeLayer(that.shipLayer);
+        that.shipLayer.dispose();   // 释放资源（这一步必须要加，否则下次绘制会有问题）
+    };
 }
 export default ShipSymbol;

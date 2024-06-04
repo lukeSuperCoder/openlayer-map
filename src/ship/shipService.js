@@ -33,6 +33,9 @@ class shipService {
             }
         });
     };
+    removeAreaShip() {
+        this.shipSymbol.removeAreaShip();
+    };
     
 }
 export default shipService;
