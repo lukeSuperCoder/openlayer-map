@@ -1,0 +1,14 @@
+<svg width="200" height="50" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <!-- 绘制等腰三角形，点的坐标顺序为：左下角，右下角，顶点 -->
+    <!-- 默认船型，无行首向 -->
+    <polygon points="10,50 30,50 20,20" style="fill:white;stroke:black;stroke-width:1" />
+    <!-- 船型：行首向左 -->
+    <polygon points="60,50 80,50 70,20" style="fill:white;stroke:black;stroke-width:1" />
+    <polyline points="70,20 70,0 60,0" style="fill:none;stroke:black;stroke-width:2" />
+    <!-- 船型：行首向右 -->
+    <polygon points="110,50 130,50 120,20" style="fill:white;stroke:black;stroke-width:1" />
+    <polyline points="120,20 120,0 130,0" style="fill:none;stroke:black;stroke-width:2" />
+     <!-- 船型：行首向前 -->
+    <polygon points="160,50 180,50 170,20" style="fill:white;stroke:black;stroke-width:1" />
+    <polyline points="170,20 170,0" style="fill:none;stroke:black;stroke-width:2" />
+</svg>

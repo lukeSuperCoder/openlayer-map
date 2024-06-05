@@ -79,25 +79,8 @@ class TrackSymbol {
     //展示轨迹
     showTrack(trackData) {
         let that = this;
-        const vectorData = that.transFormGeoJson(trackData, 'EPSG:4326', 'EPSG:3857')
-        that.drawTrackPoint(vectorData);
-        that.drawTrackLine(vectorData);
-    };
-    //GeoJSON对象坐标系转换
-    transFormGeoJson(geojson, projFrom, projTo) {
-        // 遍历GeoJSON对象，转换每个坐标
-        geojson.features.forEach(feature => {
-            if (feature.geometry.type === "Point") {
-                feature.geometry.coordinates = transform(feature.geometry.coordinates, projFrom, projTo);
-            } else if (feature.geometry.type === "LineString" || feature.geometry.type === "MultiPoint") {
-                feature.geometry.coordinates = feature.geometry.coordinates.map(coord => transform(coord,  projFrom, projTo));
-            } else if (feature.geometry.type === "Polygon" || feature.geometry.type === "MultiLineString") {
-                feature.geometry.coordinates = feature.geometry.coordinates.map(ring => ring.map(coord => transform(coord,  projFrom, projTo)));
-            } else if (feature.geometry.type === "MultiPolygon") {
-                feature.geometry.coordinates = feature.geometry.coordinates.map(polygon => polygon.map(ring => ring.map(coord => transform(coord,  projFrom, projTo))));
-            }
-        });
-        return geojson;
+        that.drawTrackPoint(trackData);
+        that.drawTrackLine(trackData);
     };
     //点位转换成线段
     getLineFromPoint(geojson) {
@@ -125,7 +108,11 @@ class TrackSymbol {
     drawTrackPoint(vectorData) {
         let that = this;
         const vectorSource = new VectorSource({
-            features: new GeoJSON().readFeatures(vectorData),
+            features: new GeoJSON().readFeatures(vectorData, {
+                // 数据原始坐标系为EPSG:4326，目标坐标系为EPSG:3857
+                dataProjection: 'EPSG:4326',
+                featureProjection: 'EPSG:3857'
+            }),
             wrapX: true,
         });
         const pointsLayer = new WebGLPointsLayer({
@@ -145,7 +132,11 @@ class TrackSymbol {
         let that = this;
         const lineData = that.getLineFromPoint(vectorData);
         const lineSource = new VectorSource({
-            features: new GeoJSON().readFeatures(lineData),
+            features: new GeoJSON().readFeatures(lineData, {
+                // 数据原始坐标系为EPSG:4326，目标坐标系为EPSG:3857
+                dataProjection: 'EPSG:4326',
+                featureProjection: 'EPSG:3857'
+            }),
             wrapX: true,
         });
         const lineLayer = new WebGLLayer({
