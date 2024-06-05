@@ -1,18 +1,6 @@
 
 ## 项目架构
-elane-ol-map/
-├── src/
-│   ├── src/  # 封装的组件
-│   │   ├── Map.js
-│   │   ├── Layer.js
-│   │   └── Control.js
-│   ├── utils/       # 工具函数
-│   ├── index.js     # 库的主入口
-├── dist/            # 打包后的文件
-├── tests/           # 测试文件
-├── README.md
-├── package.json
-└── webpack.config.js # 或其他构建配置文件
+基于openlayer二次封装地图包
 
 # 注释写法
 /**
