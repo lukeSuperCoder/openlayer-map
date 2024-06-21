@@ -19,6 +19,7 @@ class WebGLLayer extends Layer {
 const predefinedStyles = {
     icons: {
         'icon-src': './src/track/track_stop.png',
+        // 'icon-scale': [1,0.5],
         'icon-width': 18,
         'icon-height': 28,
         // 'icon-color': 'lightyellow',
@@ -113,17 +114,17 @@ class TrackSymbol {
                 dataProjection: 'EPSG:4326',
                 featureProjection: 'EPSG:3857'
             }),
-            wrapX: true,
+            wrapX: false,
         });
-        const pointsLayer = new WebGLPointsLayer({
+        const pointsLayer = new VectorLayer({
             source: vectorSource,
-            style: predefinedStyles['circles']
+            // style: predefinedStyles['circles']
         });
         that._map.addLayer(pointsLayer);
 
-        const iconsLayer = new WebGLPointsLayer({
+        const iconsLayer = new VectorLayer({
             source: vectorSource,
-            style: predefinedStyles['icons']
+            // style: predefinedStyles['icons']
         });
         that._map.addLayer(iconsLayer);
     };

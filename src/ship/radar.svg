@@ -1,0 +1,6 @@
+<svg width="30" height="30" xmlns="http://www.w3.org/2000/svg">
+    <!-- 大圆形 -->
+    <circle cx="15" cy="15" r="3" fill="#ffa500" stroke="black" stroke-width="0.5"/>
+    <!-- 小圆形 -->
+    <circle cx="15" cy="15" r="1" fill="#ffffff" stroke="black" stroke-width="0.5"/>
+</svg>
