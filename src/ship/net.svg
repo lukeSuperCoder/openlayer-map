@@ -1,0 +1,11 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <!-- 绘制正八边形 -->
+  <polygon points="100,30  161.803,50  161.803,110  100,130  38.197,110  38.197,50  100,30"
+           style="fill:lightblue; stroke:blue; stroke-width:1"/>
+  <!-- 绘制对角线 -->
+  <line x1="38.197" y1="50" x2="161.803" y2="110" style="stroke:rgb(255,0,0);stroke-width:2"/>
+  <line x1="38.197" y1="110" x2="161.803" y2="50" style="stroke:rgb(255,0,0);stroke-width:2"/>
+  <line x1="100" y1="30" x2="100" y2="130" style="stroke:rgb(255,0,0);stroke-width:2"/>
+  <line x1="38.197" y1="50" x2="161.803" y2="130" style="stroke:rgb(255,0,0);stroke-width:1; stroke-dasharray: 5,5"/>
+  <line x1="38.197" y1="110" x2="161.803" y2="30" style="stroke:rgb(255,0,0);stroke-width:1; stroke-dasharray: 5,5"/>
+</svg>

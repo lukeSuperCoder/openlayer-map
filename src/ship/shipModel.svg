@@ -2,6 +2,7 @@
     <!-- 绘制等腰三角形，点的坐标顺序为：左下角，右下角，顶点 -->
     <!-- 默认船型，无行首向 -->
     <polygon points="10,50 30,50 20,20" style="fill:white;stroke:black;stroke-width:1" />
+    <circle cx="15" cy="15" r="1" fill="#ffffff" stroke="black" stroke-width="0.5"/>
     <!-- 船型：行首向左 -->
     <polygon points="60,50 80,50 70,20" style="fill:white;stroke:black;stroke-width:1" />
     <polyline points="70,20 70,0 60,0" style="fill:none;stroke:black;stroke-width:2" />
