@@ -75,8 +75,38 @@ class TrackSymbol {
 
         }
         that.options = Object.assign(that.options, options);
+        that.initTrack();
     };
+    //初始化轨迹
+    initTrack() {
+        /**
+         *  初始化数据源
+         */
 
+        //绘制轨迹线数据源
+        that.trackLineSource = new VectorSource({
+            features: []
+        });
+        //绘制轨迹点数据源
+        that.trackPointSource = new VectorSource({
+            features: []
+        });
+
+        /**
+         *  初始化图层
+         */
+        //绘制轨迹线图层
+        that.trackLineLayer = new VectorLayer({
+            source: that.trackLineSource,
+            // style: style
+        });
+        //绘制轨迹点图层
+        that.trackPointLayer = new WebGLLayer({
+            source: that.trackPointSource,
+            // style: style
+        });
+
+    };
     //展示轨迹
     showTrack(trackData) {
         let that = this;
