@@ -80,6 +80,7 @@ class TrackPlaySymbol {
         that.lastTime = 0;
         that.eventInstance = null;
         that.playSpeed = 1;
+        that.currentSpeed = 1;
         self = that;
     }
     createTimelineUI() {
@@ -198,7 +199,7 @@ class TrackPlaySymbol {
     moveFeature(event) {
         let that = self;
         that.eventInstance = event;
-        const speed = that.playSpeed*10;
+        const speed = that.playSpeed*that.currentSpeed;
         const time = event.frameState.time;
         const elapsedTime = time - that.lastTime;
         that.distance = (that.distance + (speed * elapsedTime) / 1e6) % 2;
@@ -209,6 +210,8 @@ class TrackPlaySymbol {
         that.updateTime(distanceRate);
         //获取对应的轨迹点数据
         const trackMarkerData = that.getTrackDataAt(distanceRate);
+        //根据当前航速更新速度基准
+        that.currentSpeed = trackMarkerData.sog>1?trackMarkerData.sog:1;
         const date = that.formatDate(trackMarkerData.utc*1000);
         console.log(trackMarkerData);
         that.timelineSplits.innerHTML = that.getTimelineSplits(date);
