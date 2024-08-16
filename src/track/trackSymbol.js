@@ -79,6 +79,7 @@ class TrackSymbol {
     };
     //初始化轨迹
     initTrack() {
+        let that = this;
         /**
          *  初始化数据源
          */

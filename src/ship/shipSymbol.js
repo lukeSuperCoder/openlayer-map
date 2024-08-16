@@ -10,7 +10,7 @@ import {Point} from 'ol/geom';
  * @module ol/ship/shipSymbol
  */
 const shipStyle = {
-    'icon-src': './src/ship/net.svg', //采用精灵图片，所有模型整合到一张图片，根据偏移量调整船型
+    'icon-src': './src/ship/shipModel.svg', //采用精灵图片，所有模型整合到一张图片，根据偏移量调整船型
     //根据字段内容大小区间匹配
     'icon-offset': [
         'case',
@@ -120,7 +120,6 @@ class ShipSymbol {
     //绘制船形
     drawShipShape(vectorData) {
         let that = this;
-
         const vectorSource = new VectorSource({
             features: new GeoJSON().readFeatures(vectorData, {
                 // 数据原始坐标系为EPSG:4326，目标坐标系为EPSG:3857
@@ -131,7 +130,7 @@ class ShipSymbol {
         });
         //绘制区域船（粗略船形）
         const preAreaShipLayer = that.areaShipLayer;
-        that.areaShipLayer = new VectorLayer({
+        that.areaShipLayer = new WebGLPointsLayer({
             source: vectorSource,
             style: shipStyle,
             maxZoom: 16,
