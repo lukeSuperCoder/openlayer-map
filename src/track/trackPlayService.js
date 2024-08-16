@@ -26,13 +26,8 @@ class TrackPlayService {
         let that = this;
         return new Promise((resolve, reject) => {
             const data = require('./trackData.json');
-            var arr = []
-            data.data.forEach(item => {
-                //4326转3857
-                arr.push([item.lng, item.lat]);
-            })
-            if(arr.length>0) {
-                resolve(arr);
+            if(data) {
+                resolve(data);
             } else {
                 reject(new Error('no data'));
             }
