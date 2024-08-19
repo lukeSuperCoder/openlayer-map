@@ -40,6 +40,11 @@ class Track {
         let that = this;
         that.trackPlayService.addTrackPlay(mmsi, startTime, endTime, options);
     };
+    //添加多段轨迹播放
+    addTracksPlayByArea(mmsi, startTime, endTime, options) {
+        let that = this;
+        that.trackPlayService.addTracksPlay(mmsi, startTime, endTime, options);
+    }
     //删除轨迹播放
     removeTrackPlay(mmsi) {
         let that = this;

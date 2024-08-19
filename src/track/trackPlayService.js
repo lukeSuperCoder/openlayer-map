@@ -21,11 +21,29 @@ class TrackPlayService {
         const trackData = await that.getTrackData(mmsi, startTime, endTime, options);
         that.trackPlaySymbol.addTrack(trackData);
     }
+    //创建多段轨迹播放
+    async addTracksPlay(mmsis, startTime, endTime, options) {
+        let that = this;
+        const trackData = await that.getTracksData(mmsis, startTime, endTime, options);
+        that.trackPlaySymbol.addTracks(trackData);
+    }
     //获取轨迹数据
     getTrackData(mmsi, startTime, endTime, options) {
         let that = this;
         return new Promise((resolve, reject) => {
             const data = require('./trackData.json');
+            if(data) {
+                resolve(data);
+            } else {
+                reject(new Error('no data'));
+            }
+        });
+    };
+    //获取多段轨迹数据
+    getTracksData(mmsis, startTime, endTime, options) {
+        let that = this;
+        return new Promise((resolve, reject) => {
+            const data = require('./trackData2.json');
             if(data) {
                 resolve(data);
             } else {
