@@ -67,6 +67,7 @@ class TrackPlaySymbol {
         }
         that.options = Object.assign(that.options, options);
         that.trackDetailData = [];
+        that.timelineContainer = null;
         that.timeline = null;
         that.playPauseButton = null;
         that.playSpeedButton = null;
@@ -89,23 +90,31 @@ class TrackPlaySymbol {
     }
     //创建时间轴UI
     createTimelineUI() {
+        //创建父容器
+        this.timelineContainer = document.createElement('div');
+        this.timelineContainer.style.position = 'absolute';
+        this.timelineContainer.style.width = '450px';
+        this.timelineContainer.style.top = '0px';
+        this.timelineContainer.style.left = '50px';
+        document.body.appendChild(this.timelineContainer);
+
         // 创建时间轴
         this.timeline = document.createElement('input');
         this.timeline.type = 'range';
         this.timeline.min = 0;
         this.timeline.max = 100;
         this.timeline.value = 0;
-        this.timeline.style.width = '50%';
+        this.timeline.style.width = '100%';
         this.timeline.style.position = 'absolute';
         this.timeline.style.top = '80px';
-        document.body.appendChild(this.timeline);
+        this.timelineContainer.appendChild(this.timeline);
     
         // 创建播放/暂停按钮
         this.playPauseButton = document.createElement('button');
         this.playPauseButton.innerText = 'Play';
         this.playPauseButton.style.position = 'absolute';
         this.playPauseButton.style.top = '100px';
-        document.body.appendChild(this.playPauseButton);
+        this.timelineContainer.appendChild(this.playPauseButton);
 
         // 创建播放速度调节按钮
         this.playSpeedButton = document.createElement('button');
@@ -113,22 +122,27 @@ class TrackPlaySymbol {
         this.playSpeedButton.style.position = 'absolute';
         this.playSpeedButton.style.top = '100px';
         this.playSpeedButton.style.left = '50px';
-        document.body.appendChild(this.playSpeedButton);
+        this.timelineContainer.appendChild(this.playSpeedButton);
 
         //创建时间刻度
         this.timelineSplits = document.createElement('div');
         this.timelineSplits.style.position = 'absolute';
         this.timelineSplits.style.top = '100px';
         this.timelineSplits.style.left = '120px';
-        document.body.appendChild(this.timelineSplits);
+        this.timelineContainer.appendChild(this.timelineSplits);
     }
     
     //删除时间轴UI
     removeTimelineUI() {
-        document.body.removeChild(this.timeline);
-        document.body.removeChild(this.playPauseButton);
-        document.body.removeChild(this.playSpeedButton);
-        document.body.removeChild(this.timelineSplits);
+        document.body.removeChild(this.timelineContainer);
+        this.timelineContainer = null;
+        this.timeline = null;
+        this.playPauseButton = null;
+        this.playSpeedButton = null;
+        this.timelineSplits = null;
+        this.eventInstance = null;
+        this.animating = false;
+        this.distance = 0;
     }
     //添加时间轴监听事件
     setupEventListeners() {
@@ -167,8 +181,9 @@ class TrackPlaySymbol {
     }
     //解除时间轴监听事件
     removeEventListeners() {
-        this.playPauseButton.removeEventListener('click', this.startAnimation);
-        this.timeline.removeEventListener('input', this.updateMarkerPosition);
+        // this.playPauseButton.removeEventListener('click', this.startAnimation);
+        // this.timeline.removeEventListener('input', this.updateMarkerPosition);
+        // this.playSpeedButton.removeEventListener('click', this.playSpeedButton);
     }
     //添加轨迹
     addTrack(trackData) {
@@ -176,6 +191,7 @@ class TrackPlaySymbol {
         that.trackPlayOnlyFlag = true;
         if(that.timeline){
             that.removeTimelineUI();
+            that.removeTrack();
         }
         that.createTimelineUI();
         that.setupEventListeners();
@@ -223,6 +239,7 @@ class TrackPlaySymbol {
         that.trackPlayOnlyFlag = false;
         if(that.timeline){
             that.removeTimelineUI();
+            that.removeTrack();
         }
         that.createTimelineUI();
         that.setupEventListeners();
@@ -289,6 +306,13 @@ class TrackPlaySymbol {
         }
     }
 
+    //删除轨迹
+    removeTrack() {
+        let that = this;
+        if(that.trackPlayLayer) {
+            that._map.removeLayer(that.trackPlayLayer);
+        }
+    }
     //轨迹标记移动事件
     moveFeature(event) {
         let that = self;
