@@ -1,4 +1,5 @@
 import TrackPlaySymbol from "./trackPlaySymbol";
+import { LineString, Polygon } from 'ol/geom';
 /**
  * 轨迹播放服务类
  * @module TrackPlayService
@@ -25,6 +26,21 @@ class TrackPlayService {
     async addTracksPlay(mmsis, startTime, endTime, options) {
         let that = this;
         const trackData = await that.getTracksData(mmsis, startTime, endTime, options);
+        that.trackPlaySymbol.addTracks(trackData);
+    }
+    //创建多段轨迹播放并通过区域过滤
+    async addTracksPlayByArea(mmsis, startTime, endTime, options) {
+        let that = this;
+        const trackData = await that.getTracksData(mmsis, startTime, endTime, options);
+        that.trackPlaySymbol.trackAreaBounds = new Polygon([
+            [
+                [118.716748, 24.590084],
+                [118.716748, 26.245449],
+                [121.312284, 26.245449],
+                [121.312284, 24.590084],
+                [118.716748, 24.590084]
+            ]
+        ]).transform('EPSG:4326', 'EPSG:3857');
         that.trackPlaySymbol.addTracks(trackData);
     }
     //获取轨迹数据

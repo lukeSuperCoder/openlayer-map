@@ -6,7 +6,7 @@ import Feature from 'ol/Feature.js';
 import GeoJSON from 'ol/format/GeoJSON';
 import Point from 'ol/geom/Point.js';
 import Polyline from 'ol/format/Polyline.js';
-import { LineString } from 'ol/geom';
+import { LineString, Polygon } from 'ol/geom';
 import VectorSource from 'ol/source/Vector.js';
 import View from 'ol/View.js';
 import {
@@ -29,6 +29,15 @@ const styles = {
         stroke: new Stroke({
             width: 2,
             color: 'red',
+        }),
+    }),
+    'area': new Style({
+        stroke: new Stroke({
+            color: 'rgba(255, 0, 0, 0.5)',
+            width: 2,
+        }),
+        fill: new Fill({
+            color: 'rgba(255, 0, 0, 0.2)',
         }),
     }),
     'geoMarker': new Style({
@@ -86,6 +95,7 @@ class TrackPlaySymbol {
         that.trackPlayOnlyFlag = true;
         that.trackFeatures = [];
         that.baseTrackFeature = null;
+        that.trackAreaBounds = null;    
         self = that;
     }
     //创建时间轴UI
@@ -256,12 +266,20 @@ class TrackPlaySymbol {
                 return styles[feature.get('type')];
             },
         });
+        if(that.trackAreaBounds) {
+            const trackAreaFeature = new Feature({
+                type: 'area',
+                geometry: that.trackAreaBounds,
+            })
+            that.trackPlayLayer.getSource().addFeatures([trackAreaFeature])
+        }
         // 为每条轨迹创建一个 Feature 并添加到轨迹集合中
         for(let track in trackData) {
             //创建轨迹线数据源
             let lineCoords = new LineString(trackData[track].map(item => {
                 return [item.lng, item.lat]
             })).transform('EPSG:4326', 'EPSG:3857');
+            
             const timeRange = trackData[track][trackData[track].length-1].utc - trackData[track][0].utc;
             //创建轨迹数据源
             const trackDataFeature = new Feature({
@@ -379,6 +397,10 @@ class TrackPlaySymbol {
             const currentCoordinate = trackItem.trackDataFeature.getGeometry().getCoordinateAt(distanceRate);
             // console.log(currentCoordinate);
             trackItem.trackMarkerPosition.setCoordinates(currentCoordinate);
+            //如果当前轨迹点不在区域内，则跳过
+            if(that.trackAreaBounds  && !that.trackAreaBounds.intersectsCoordinate(currentCoordinate)) {
+                return;
+            }
             // tell OpenLayers to continue the postrender animation
             const vectorContext = getVectorContext(event);
             styles.geoMarker.getText().setText('时间: '+date+' cog: '+trackMarkerData.cog+' sog: '+trackMarkerData.sog+' 吃水: '+trackMarkerData.draught);
